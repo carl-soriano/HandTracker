@@ -6,10 +6,12 @@ capture_hands = mediapipe.solutions.hands.Hands()
 drawing_option = mediapipe.solutions.drawing_utils
 screen_width, screen_height = pyautogui.size()
 
-
 camera = cv2.VideoCapture(0)
 
-x1 = y1 = x2 = y2 = 0 
+# Set the desired frame rate to 60 frames per second
+camera.set(cv2.CAP_PROP_FPS, 60)
+
+x1 = y1 = x2 = y2 = 0
 
 while True:
     _, image = camera.read()
@@ -34,22 +36,20 @@ while True:
                     mouse_y = int(screen_height / image_height * y)
                     cv2.circle(image, (x, y), 10, (0, 255, 255))
                     pyautogui.moveTo(mouse_x, mouse_y)
-                    x1 = x 
-                    y1 = y 
+                    x1 = x
+                    y1 = y
 
                 if id == 4:
-                    x2 = x 
+                    x2 = x
                     y2 = y
                     cv2.circle(image, (x, y), 10, (0, 255, 255))
-        dist = y2 - y1 
+        dist = y2 - y1
         print(dist)
-        if(dist<40):
+        if dist < 40:
             pyautogui.click()
 
-
-
     cv2.imshow("Hand Recognition capture", image)
-    key = cv2.waitKey(100)
+    key = cv2.waitKey(1)
     if key == 27:
         break
 
